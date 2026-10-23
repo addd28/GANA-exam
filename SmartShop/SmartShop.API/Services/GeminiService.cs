@@ -379,8 +379,17 @@ public class GeminiService : IGeminiService
         try
         {
             var parsed = JsonNode.Parse(responseString);
-            var text = parsed?["candidates"]?[0]?["content"]?[0]?["text"]?.GetValue<string>()
-                ?? parsed?["candidates"]?[0]?["content"]?["parts"]?[0]?["text"]?.GetValue<string>();
+            var contentNode = parsed?["candidates"]?[0]?["content"];
+            string? text = null;
+
+            if (contentNode is JsonObject contentObj && contentObj["parts"] is JsonArray partsArr && partsArr.Count > 0)
+            {
+                text = partsArr[0]?["text"]?.GetValue<string>();
+            }
+            else if (contentNode is JsonArray contentArr && contentArr.Count > 0)
+            {
+                text = contentArr[0]?["text"]?.GetValue<string>();
+            }
 
             if (string.IsNullOrWhiteSpace(text))
             {

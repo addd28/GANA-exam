@@ -394,3 +394,23 @@ npm run dev
 - [x] Question 6 `README.md` with full documentation, prompts, schemas, and instructions.
 - [x] Complete Postman collection in `SmartShop.postman_collection.json`.
 - [x] Unit test suite passing 100% (`SmartShop.Tests`).
+- [x] Real Gemini API configuration and live execution screenshots in `SmartShop/screenshots/`.
+
+---
+
+## 9. Minh Chứng Thực Nghiệm (Screenshots)
+
+Tất cả ảnh minh chứng được chụp trực tiếp từ ứng dụng và API thực tế đang hoạt động, sử dụng khóa **Google Gemini API thật**:
+
+| STT | Tên file ảnh | Mô tả minh chứng | Trạng thái |
+|:---:|:---|:---|:---:|
+| 1 | `01-review-dashboard.png` | Giao diện React Dashboard hiển thị báo cáo tổng hợp đánh giá từ SQL Server sau khi Gemini phân tích | ✅ Đã kiểm chứng |
+| 2 | `02-generate-description.png` | API `POST /api/products/1/generatedescription` gọi Gemini thành công (HTTP 200, mô tả dưới 80 từ) | ✅ Đã kiểm chứng |
+| 3 | `02b-ui-generate-description.png` | Giao diện Web sinh mô tả sản phẩm với Gemini Copywriter | ✅ Đã kiểm chứng |
+| 4 | `03-review-analysis.png` | API `POST /api/reviews/analyze` gọi Gemini phân tích cảm xúc dạng JSON có cấu trúc (HTTP 201) | ✅ Đã kiểm chứng |
+| 5 | `03b-ui-review-analysis.png` | Giao diện Web gửi đánh giá và nhận phản hồi phân tích thời gian thực từ Gemini | ✅ Đã kiểm chứng |
+| 6 | `04-product-chatbot.png` | API `POST /api/assistant/chat` gọi Gemini tư vấn bán hàng đa lượt, bám sát catalog SQL (HTTP 200) | ✅ Đã kiểm chứng |
+| 7 | `04b-ui-shopping-assistant.png` | Giao diện Web Shopping Assistant tương tác hội thoại với Gemini | ✅ Đã kiểm chứng |
+| 8 | `05-review-report-api.png` | API `GET /api/reports/reviews` tổng hợp số lượng đánh giá và điểm trung bình (HTTP 200) | ✅ Đã kiểm chứng |
+| 9 | `06-swagger-api.png` | Giao diện Swagger UI tài liệu hóa đầy đủ các API của hệ thống SmartShop | ✅ Đã kiểm chứng |
+
