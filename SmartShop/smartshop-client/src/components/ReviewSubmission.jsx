@@ -182,7 +182,13 @@ export default function ReviewSubmission({ onReviewSubmitted }) {
                 <span className="btn-spinner"></span> Analyzing with Gemini JSON Mode...
               </>
             ) : (
-              '⚡ Submit & Analyze Review'
+              <span className="flex items-center gap-2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z"/>
+                  <path d="M19 15L19.8 17.2L22 18L19.8 18.8L19 21L18.2 18.8L16 18L18.2 17.2L19 15Z"/>
+                </svg>
+                Submit & Analyze Review
+              </span>
             )}
           </button>
         </div>
