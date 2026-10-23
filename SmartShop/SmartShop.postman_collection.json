@@ -1,0 +1,363 @@
+{
+  "info": {
+    "_postman_id": "a642e12e-13c5-4d76-88cf-9a037628a8d1",
+    "name": "SmartShop AI API - Set01",
+    "description": "Examination Postman Collection for Generative AI for .NET Developers with Google AI – Set01.\nIncludes endpoints for Question 1 (Generate Description), Question 2 (Analyze Review), Question 3 (Shopping Assistant), and Question 4 (Review Report).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5126",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"]
+            },
+            "description": "Retrieves the product catalog from SQL Server."
+          },
+          "response": []
+        },
+        {
+          "name": "Q1 - Generate Product Description",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/1/generatedescription",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products", "1", "generatedescription"]
+            },
+            "description": "Question 1: Generates an engaging product description (max 80 words) using Gemini copywriter prompt, saves it to SQL Server Product.Description column, and returns it."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/products/1/generatedescription",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "products", "1", "generatedescription"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"productId\": 1,\n  \"productName\": \"Galaxy S25\",\n  \"description\": \"Experience cutting-edge mobile performance with the Galaxy S25. Featuring a breathtaking 6.2-inch AMOLED display, this smartphone brings visuals to life with brilliant clarity. Powered by the next-generation Snapdragon 8 Elite processor, it delivers seamless speed for gaming and multitasking. Capture every detail with the versatile 50MP camera, engineered for stunning photography in any lighting condition. Elevate your everyday mobile experience.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Q2 - Analyze Customer Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"customerName\": \"John\",\n  \"content\": \"The battery is great but the phone gets hot when gaming.\",\n  \"rating\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews", "analyze"]
+            },
+            "description": "Question 2: Validates review input, executes Gemini structured output with JSON response schema (sentiment, score 0.0-1.0, summary), saves review to SQL Server, and returns the saved record."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": 1,\n  \"customerName\": \"John\",\n  \"content\": \"The battery is great but the phone gets hot when gaming.\",\n  \"rating\": 4\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/reviews/analyze",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "reviews", "analyze"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reviewId\": 1,\n  \"productId\": 1,\n  \"customerName\": \"John\",\n  \"content\": \"The battery is great but the phone gets hot when gaming.\",\n  \"rating\": 4,\n  \"sentiment\": \"Positive\",\n  \"score\": 0.92,\n  \"summary\": \"Battery is great but the phone gets hot when gaming.\",\n  \"createdAt\": \"2026-10-23T11:45:00Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews"]
+            },
+            "description": "Retrieves all saved customer reviews."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Assistant",
+      "item": [
+        {
+          "name": "Q3 - Shopping Assistant (Turn 1: Biggest Battery)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"session-001\",\n  \"message\": \"Which phone has the biggest battery?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assistant/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assistant", "chat"]
+            },
+            "description": "Question 3: Chat with AI Shopping Assistant with catalog context and persistent session history."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"session-001\",\n  \"message\": \"Which phone has the biggest battery?\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/assistant/chat",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "assistant", "chat"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sessionId\": \"session-001\",\n  \"reply\": \"In our catalog, the Xiaomi Redmi Note 15 has the biggest battery with a large 5500mAh capacity.\",\n  \"createdAt\": \"2026-10-23T11:46:12Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Q3 - Shopping Assistant (Turn 2: Follow-up Cost)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"session-001\",\n  \"message\": \"How much does it cost?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assistant/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assistant", "chat"]
+            },
+            "description": "Follow-up question testing session continuity: Assistant recognizes 'it' refers to Xiaomi Redmi Note 15."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"session-001\",\n  \"message\": \"How much does it cost?\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/assistant/chat",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "assistant", "chat"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sessionId\": \"session-001\",\n  \"reply\": \"The Xiaomi Redmi Note 15 is priced at 6,490,000 VND.\",\n  \"createdAt\": \"2026-10-23T11:46:45Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Q3 - Shopping Assistant (Refusal of Unrelated Question)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"session-001\",\n  \"message\": \"What is the capital of France?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assistant/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assistant", "chat"]
+            },
+            "description": "Tests assistant prompt restriction: Refuses queries unrelated to SmartShop electronics catalog."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Session Chat History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assistant/history/session-001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assistant", "history", "session-001"]
+            },
+            "description": "Retrieves saved conversation history for a given sessionId from SQL Server ChatMessage table."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Q4 - Get Review Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "reviews"]
+            },
+            "description": "Question 4: Review report returning one row per product (including products with no reviews), sorted by ProductId, with AverageRating rounded to 1 decimal place."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/reports/reviews",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "reports", "reviews"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"no\": 1,\n    \"productName\": \"Galaxy S25\",\n    \"totalReviews\": 5,\n    \"positive\": 3,\n    \"negative\": 1,\n    \"neutral\": 1,\n    \"averageRating\": 4.0\n  },\n  {\n    \"no\": 2,\n    \"productName\": \"MacBook Air M4\",\n    \"totalReviews\": 3,\n    \"positive\": 3,\n    \"negative\": 0,\n    \"neutral\": 0,\n    \"averageRating\": 4.7\n  },\n  {\n    \"no\": 3,\n    \"productName\": \"AirPods Pro 3\",\n    \"totalReviews\": 2,\n    \"positive\": 0,\n    \"negative\": 2,\n    \"neutral\": 0,\n    \"averageRating\": 1.5\n  },\n  {\n    \"no\": 4,\n    \"productName\": \"Xiaomi Redmi Note 15\",\n    \"totalReviews\": 0,\n    \"positive\": 0,\n    \"negative\": 0,\n    \"neutral\": 0,\n    \"averageRating\": 0.0\n  }\n]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

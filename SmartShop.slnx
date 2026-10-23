@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/SmartShop/">
+    <Project Path="SmartShop/SmartShop.API/SmartShop.API.csproj" />
+    <Project Path="SmartShop/SmartShop.Tests/SmartShop.Tests.csproj" />
+  </Folder>
+</Solution>
